@@ -3,6 +3,7 @@ import cors from "@fastify/cors";
 import jwt from '@fastify/jwt';
 import { env } from "../config/env";
 import { errorHandler } from "../middleware/error.middleware";
+import { registerRateLimit } from "./rate-limit";
 
 declare module '@fastify/jwt' {
   interface FastifyJWT {
@@ -18,6 +19,9 @@ declare module '@fastify/jwt' {
 }
 
 export async function registerPlugins(app: FastifyInstance) {
+  // Plugin de Rate Limit
+  await registerRateLimit(app);
+
   // Plugin de CORS
   await app.register(cors, {
     origin: env.NODE_ENV === 'production' 
