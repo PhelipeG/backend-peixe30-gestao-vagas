@@ -52,46 +52,21 @@ export async function jobRoutes(app: FastifyInstance) {
   }, jobController.create.bind(jobController));
 
   // Listar todas as vagas
-  app.get('/all', {
-    schema: {
-      tags: ['Jobs'],
-      summary: 'Listar todas as vagas',
-      description: 'Retorna uma lista paginada de todas as vagas disponíveis',
-      security: [{ bearerAuth: [] }],
-      querystring: {
-        type: 'object',
-        properties: {
-          page: { 
-            type: 'number', 
-            default: 1, 
-            minimum: 1,
-            description: 'Número da página'
-          },
-          limit: { 
-            type: 'number', 
-            default: 10, 
-            minimum: 1, 
-            maximum: 100,
-            description: 'Número de itens por página'
-          }
-        }
-      },
-      response: {
-        200: {
-          type: 'object',
-          properties: {
-            jobs: {
-              type: 'array',
-              items: jobSchema
-            },
-            pagination: paginationSchema
-          }
-        },
-        401: errorSchema,
-        500: errorSchema
+ app.get('/all', {
+  schema: {
+    tags: ['Jobs'],
+    summary: 'Listar todas as vagas',
+    security: [{ bearerAuth: [] }],
+     querystring: {
+      type: 'object',
+      properties: {
+        page: { type: 'integer', minimum: 1, default: 1 },
+        limit: { type: 'integer', minimum: 1, maximum: 100, default: 10 }
       }
-    }
-  }, jobController.list.bind(jobController));
+    },
+  },
+  
+}, jobController.list.bind(jobController));
 
   // Buscar vaga por ID
   app.get('/:id', {
