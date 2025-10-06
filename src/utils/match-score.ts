@@ -1,5 +1,4 @@
-/* Calcula o score de compatibilidade entre um candidato e uma vaga
- *
+/* 
  * Critérios:
  * - Skills match: 70% do score (proporção de skills da vaga que o candidato possui)
  * - Experience: 30% do score (anos de experiência do candidato)
@@ -7,7 +6,6 @@
  *   - 3-5 anos: 60%
  *   - 6-10 anos: 80%
  *   - 10+ anos: 100%
- *
  * @returns Score de 0 a 100
  */
 export function calculateMatchScore(
@@ -15,7 +13,7 @@ export function calculateMatchScore(
   jobSkills: string[],
   experienceYears: number
 ): number {
-  // Normalizar skills para lowercase para comparação case-insensitive
+  // Normalizar skills para lowercase para comparação 
   const normalizedCandidateSkills = candidateSkills.map(s => s.toLowerCase());
   const normalizedJobSkills = jobSkills.map(s => s.toLowerCase());
 
@@ -40,8 +38,6 @@ export function calculateMatchScore(
   } else {
     experienceScore = 30; // 30 pontos
   }
-
-  // Score final
   const finalScore = Math.round(skillsScore + experienceScore);
 
   return finalScore;
