@@ -1,10 +1,11 @@
-import { Job } from "@prisma/client";
+import { Job } from '@prisma/client';
+
 import {
   CreateJobRequest,
   PaginatedResponse,
   UpdateJobRequest,
-} from "../types";
-import { prisma } from "../utils/prisma";
+} from '../types';
+import { prisma } from '../utils/prisma';
 
 export class JobService {
   async create(data: CreateJobRequest): Promise<Job> {
@@ -29,7 +30,7 @@ export class JobService {
         skip,
         take: limit,
         orderBy: {
-          createdAt: "desc",
+          createdAt: 'desc',
         },
       }),
       prisma.job.count(),

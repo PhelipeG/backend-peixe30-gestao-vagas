@@ -1,4 +1,4 @@
-import { FastifyError, FastifyRequest, FastifyReply } from "fastify";
+import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 
 export async function errorHandler(
   error: FastifyError,
@@ -9,7 +9,7 @@ export async function errorHandler(
 
   reply.status(statusCode).send({
     error: true,
-    message: statusCode >= 500 ? "Internal Server Error" : message,
+    message: statusCode >= 500 ? 'Internal Server Error' : message,
     statusCode,
     timestamp: new Date().toISOString(),
     path: request.url,

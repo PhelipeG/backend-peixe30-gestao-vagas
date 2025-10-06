@@ -1,7 +1,8 @@
-import { env } from "../config/env";
-import { LoginRequest, LoginResponse } from "../types";
-import { prisma } from "../utils/prisma";
-import bcrypt from "bcryptjs";
+import bcrypt from 'bcryptjs';
+
+import { env } from '../config/env';
+import { LoginRequest, LoginResponse } from '../types';
+import { prisma } from '../utils/prisma';
 
 export class AuthService {
   async login(data: LoginRequest): Promise<LoginResponse | null> {
@@ -17,13 +18,13 @@ export class AuthService {
         user = await prisma.user.create({
           data: {
             email: env.DEFAULT_USER_EMAIL,
-            name: "Administrador",
+            name: 'Administrador',
             password: hashedPassword,
           },
         });
       }
       return {
-        token: "",
+        token: '',
         user: {
           id: user.id,
           email: user.email,
@@ -45,7 +46,7 @@ export class AuthService {
     }
 
     return {
-      token: "",
+      token: '',
       user: {
         id: user.id,
         email: user.email,
@@ -53,7 +54,7 @@ export class AuthService {
       },
     };
   }
-  async createUser(email:string,password:string,name?:string) {
+  async createUser(email: string, password: string, name?: string) {
     const hashedPassword = await bcrypt.hash(password, 10);
     return prisma.user.create({
       data: {
@@ -61,7 +62,6 @@ export class AuthService {
         name,
         password: hashedPassword,
       },
-    }); 
+    });
   }
 }
- 

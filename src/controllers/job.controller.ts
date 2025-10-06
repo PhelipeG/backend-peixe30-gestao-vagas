@@ -1,15 +1,16 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import z from "zod";
-import { JobService } from "../services/job.service";
+import { FastifyReply, FastifyRequest } from 'fastify';
+import z from 'zod';
+
+import { JobService } from '../services/job.service';
 
 const jobService = new JobService();
 
 const createJobSchema = z.object({
-  title: z.string().min(3, "Title must be at least 3 characters"),
-  description: z.string().min(10, "Description must be at least 10 characters"),
-  location: z.string().min(2, "Location must be at least 2 characters"),
-  salaryRange: z.string().min(1, "Salary range is required"),
-  skills: z.array(z.string()).min(1, "At least one skill is required"),
+  title: z.string().min(3, 'Title must be at least 3 characters'),
+  description: z.string().min(10, 'Description must be at least 10 characters'),
+  location: z.string().min(2, 'Location must be at least 2 characters'),
+  salaryRange: z.string().min(1, 'Salary range is required'),
+  skills: z.array(z.string()).min(1, 'At least one skill is required'),
 });
 
 const updateJobSchema = createJobSchema.partial();
@@ -20,7 +21,7 @@ const listJobsSchema = z.object({
 });
 
 const jobIdSchema = z.object({
-  id: z.string().length(24, "Id invalido!"),
+  id: z.string().length(24, 'Id invalido!'),
 });
 
 export class JobController {
@@ -32,14 +33,14 @@ export class JobController {
     } catch (error) {
       if (error instanceof z.ZodError) {
         return reply.status(400).send({
-          error: "Erro de validação",
+          error: 'Erro de validação',
           message: error.message,
         });
       }
-      console.error("Erro ao criar job:", error);
+      console.error('Erro ao criar job:', error);
       return reply.status(500).send({
-        error: "Erro Interno",
-        message: "Erro ao criar job",
+        error: 'Erro Interno',
+        message: 'Erro ao criar job',
       });
     }
   }
@@ -52,15 +53,15 @@ export class JobController {
     } catch (error) {
       if (error instanceof z.ZodError) {
         return reply.status(400).send({
-          error: "Erro de validação",
+          error: 'Erro de validação',
           message: error.message,
         });
       }
 
-      console.error("List jobs error:", error);
+      console.error('List jobs error:', error);
       return reply.status(500).send({
-        error: "Erro interno",
-        message: "Ocorreu um erro ao listar os jobs",
+        error: 'Erro interno',
+        message: 'Ocorreu um erro ao listar os jobs',
       });
     }
   }
@@ -102,15 +103,15 @@ export class JobController {
     } catch (error) {
       if (error instanceof z.ZodError) {
         return reply.status(400).send({
-          error: "Erro de validação",
+          error: 'Erro de validação',
           message: error.message,
         });
       }
 
-      console.error("Update job error:", error);
+      console.error('Update job error:', error);
       return reply.status(500).send({
-        error: "Erro interno",
-        message: "Ocorreu um erro ao atualizar o job",
+        error: 'Erro interno',
+        message: 'Ocorreu um erro ao atualizar o job',
       });
     }
   }
@@ -123,15 +124,15 @@ export class JobController {
     } catch (error) {
       if (error instanceof z.ZodError) {
         return reply.status(400).send({
-          error: "Erro de validação",
+          error: 'Erro de validação',
           message: error.message,
         });
       }
 
-      console.error("Delete job error:", error);
+      console.error('Delete job error:', error);
       return reply.status(500).send({
-        error: "Erro interno",
-        message: "Ocorreu um erro ao deletar o job",
+        error: 'Erro interno',
+        message: 'Ocorreu um erro ao deletar o job',
       });
     }
   }

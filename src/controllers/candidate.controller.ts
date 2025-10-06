@@ -1,16 +1,17 @@
-import z from "zod";
-import { CandidateService } from "../services/candidate.service";
-import { FastifyReply, FastifyRequest } from "fastify";
+import { FastifyReply, FastifyRequest } from 'fastify';
+import z from 'zod';
+
+import { CandidateService } from '../services/candidate.service';
 
 const candidateService = new CandidateService();
 
 const jobIdSchema = z.object({
-  jobId: z.string().length(24, "ID de vaga inválido"),
+  jobId: z.string().length(24, 'ID de vaga inválido'),
 });
 
 const inviteSchema = z.object({
-  jobId: z.string().length(24, "ID de vaga inválido"),
-  candidateId: z.string().length(24, "ID de candidato inválido"),
+  jobId: z.string().length(24, 'ID de vaga inválido'),
+  candidateId: z.string().length(24, 'ID de candidato inválido'),
 });
 
 export class CandidateController {
@@ -24,14 +25,14 @@ export class CandidateController {
     } catch (error) {
       if (error instanceof z.ZodError) {
         return reply.status(400).send({
-          error: "Erro de validação",
+          error: 'Erro de validação',
           message: error.message,
         });
       }
-      console.error("Erro ao buscar candidatos compatíveis:", error);
+      console.error('Erro ao buscar candidatos compatíveis:', error);
       return reply.status(500).send({
-        error: "Erro interno",
-        message: "Ocorreu um erro ao buscar candidatos compatíveis",
+        error: 'Erro interno',
+        message: 'Ocorreu um erro ao buscar candidatos compatíveis',
       });
     }
   }
@@ -41,43 +42,43 @@ export class CandidateController {
       await candidateService.inviteCandidate(body.jobId, body.candidateId);
 
       return reply.status(201).send({
-        message: "Candidato convidado com sucesso",
+        message: 'Candidato convidado com sucesso',
       });
     } catch (error) {
       if (error instanceof z.ZodError) {
         return reply.status(400).send({
-          error: "Erro de validação",
+          error: 'Erro de validação',
           message: error.message,
         });
       }
 
       if (error instanceof Error) {
-        if (error.message === "Job not found") {
+        if (error.message === 'Job not found') {
           return reply.status(404).send({
-            error: "Nao encontrado",
-            message: "Vaga nao encontrada no sistema !",
+            error: 'Nao encontrado',
+            message: 'Vaga nao encontrada no sistema !',
           });
         }
 
-        if (error.message === "Candidate not found") {
+        if (error.message === 'Candidate not found') {
           return reply.status(404).send({
-            error: "Nao encontrado",
-            message: "Candidato nao encontrado no sistema !",
+            error: 'Nao encontrado',
+            message: 'Candidato nao encontrado no sistema !',
           });
         }
 
-        if (error.message === "Candidate already invited") {
+        if (error.message === 'Candidate already invited') {
           return reply.status(409).send({
-            error: "Conflict",
-            message: "Candidato ja convidado para esta vaga !",
+            error: 'Conflict',
+            message: 'Candidato ja convidado para esta vaga !',
           });
         }
       }
 
-      console.error("Erro ao convidar candidato:", error);
+      console.error('Erro ao convidar candidato:', error);
       return reply.status(500).send({
-        error: "Erro interno",
-        message: "Ocorreu um erro ao convidar o candidato",
+        error: 'Erro interno',
+        message: 'Ocorreu um erro ao convidar o candidato',
       });
     }
   }
@@ -86,10 +87,10 @@ export class CandidateController {
       const candidates = await candidateService.getAllCandidates();
       return reply.status(200).send(candidates);
     } catch (error) {
-      console.error("Erro ao buscar candidatos:", error);
+      console.error('Erro ao buscar candidatos:', error);
       return reply.status(500).send({
-        error: "Erro interno",
-        message: "Ocorreu um erro ao buscar candidatos",
+        error: 'Erro interno',
+        message: 'Ocorreu um erro ao buscar candidatos',
       });
     }
   }

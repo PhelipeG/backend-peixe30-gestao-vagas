@@ -1,6 +1,7 @@
-import { FastifyInstance } from "fastify";
-import { env } from "../config/env";
-import { prisma } from "../utils/prisma";
+import { FastifyInstance } from 'fastify';
+
+import { env } from '../config/env';
+import { prisma } from '../utils/prisma';
 
 export async function healthRoutes(app: FastifyInstance) {
   app.get('/health', async () => {
@@ -13,7 +14,7 @@ export async function healthRoutes(app: FastifyInstance) {
         uptime: process.uptime(),
         environment: env.NODE_ENV,
         database: 'connected',
-        version: '1.0.0'
+        version: '1.0.0',
       };
     } catch (error) {
       return {
@@ -22,7 +23,7 @@ export async function healthRoutes(app: FastifyInstance) {
         uptime: process.uptime(),
         environment: env.NODE_ENV,
         database: 'disconnected',
-        version: '1.0.0'
+        version: '1.0.0',
       };
     }
   });

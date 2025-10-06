@@ -1,12 +1,13 @@
-import { FastifyReply, FastifyRequest } from "fastify";
-import z from "zod";
-import { AuthService } from "../services/auth.service";
+import { FastifyReply, FastifyRequest } from 'fastify';
+import z from 'zod';
+
+import { AuthService } from '../services/auth.service';
 
 const authService = new AuthService();
 
 const loginSchema = z.object({
-  email: z.string().email("Invalid email format"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  email: z.string().email('Invalid email format'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
 export class AuthController {
@@ -17,8 +18,8 @@ export class AuthController {
 
       if (!result) {
         return reply.status(401).send({
-          error: "Nao autorizado",
-          message: "Credenciais Invalidas",
+          error: 'Nao autorizado',
+          message: 'Credenciais Invalidas',
         });
       }
       const token = request.server.jwt.sign({
@@ -32,14 +33,14 @@ export class AuthController {
     } catch (error) {
       if (error instanceof z.ZodError) {
         return reply.status(400).send({
-          error: "Erro de validação",
+          error: 'Erro de validação',
           message: error.message,
         });
       }
-      console.error("Erro ao fazer login:", error);
+      console.error('Erro ao fazer login:', error);
       return reply.status(500).send({
-        error: "Erro interno",
-        message: "Erro durante o login",
+        error: 'Erro interno',
+        message: 'Erro durante o login',
       });
     }
   }
@@ -54,10 +55,10 @@ export class AuthController {
         },
       });
     } catch (error) {
-      console.error("Me error:", error);
+      console.error('Me error:', error);
       return reply.status(500).send({
-        error: "Internal server error",
-        message: "An error occurred",
+        error: 'Internal server error',
+        message: 'An error occurred',
       });
     }
   }

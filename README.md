@@ -2,6 +2,21 @@
 
 Backend da aplicação de gerenciamento de vagas e candidatos.
 
+## 🌐 URLs de Produção
+
+- **API Backend:** https://peixe30-backend.onrender.com
+- **Documentação Swagger:** https://peixe30-backend.onrender.com/docs
+- **Health Check:** https://peixe30-backend.onrender.com/health
+
+## ⏱️ Tempo de Desenvolvimento
+
+**Total do Backend:** 15 horas
+- Estrutura inicial e configuração: 2 horas
+- Implementação das APIs (CRUD, Auth): 4 horas
+- Sistema de match e score: 4 horas
+- Validações, middleware e rate limiting: 2 horas
+- Documentação e deploy: 3 horas
+
 ## 🚀 Tecnologias
 
 - **Node.js** com **TypeScript**
@@ -19,22 +34,33 @@ Backend da aplicação de gerenciamento de vagas e candidatos.
 
 ## 🔧 Instalação
 
-1. Clone o repositório e entre na pasta do backend:
+### 1. Clone o repositório
+
 ```bash
-cd peixe30-backend
+# HTTPS
+git clone https://github.com/PhelipeG/backend-peixe30-gestao-vagas.git
+
+# Entre na pasta do projeto
+cd backend-peixe30-gestao-vagas
 ```
 
-2. Instale as dependências:
+### 2. Instale as dependências
+
 ```bash
 npm install
 ```
 
-3. Configure as variáveis de ambiente:
+### 3. Configure as variáveis de ambiente
+
 ```bash
+# Copie o arquivo de exemplo (se existir)
 cp .env.example .env
+
+# Ou crie o arquivo .env manualmente
+touch .env
 ```
 
-4. Edite o arquivo `.env` com suas configurações:
+### 4. Edite o arquivo `.env` com suas configurações
 ```env
 DATABASE_URL="mongodb+srv://seu-usuario:sua-senha@cluster.mongodb.net/peixe30?retryWrites=true&w=majority"
 PORT=3333
@@ -44,154 +70,34 @@ DEFAULT_USER_EMAIL=admin@peixe30.com
 DEFAULT_USER_PASSWORD=admin123
 ```
 
-5. Configure o banco de dados e popule com dados iniciais:
+### 5. Configure o banco de dados e popule com dados iniciais
+
 ```bash
-npm run setup
+# Gerar o cliente Prisma
+npm run prisma:generate
+
+# Sincronizar o schema com o MongoDB
+npm run prisma:push
+
+# Popular banco com dados iniciais
+npm run seed
 ```
 
-Este comando irá:
-- Gerar o cliente Prisma
-- Sincronizar o schema com o MongoDB
-- Criar usuário padrão e dados de exemplo (candidatos e vagas)
-
-## 🎯 Como executar
+## 🎯 Como Rodar o Projeto
 
 ### Desenvolvimento
 ```bash
 npm run dev
 ```
-
 O servidor iniciará em `http://localhost:3333`
-
-### Produção
-```bash
-npm run build
-npm start
-```
 
 ## 📚 Documentação da API
 
-### Base URL
-```
-http://localhost:3333/api
-```
+### URLs da API
 
-### Autenticação
-
-#### POST /api/auth/login
-Realiza login e retorna token JWT.
-
-**Body:**
-```json
-{
-  "email": "admin@peixe30.com",
-  "password": "admin123"
-}
-```
-
-**Response:**
-```json
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "user": {
-    "id": "65f1a2b3c4d5e6f7g8h9i0j1",
-    "email": "admin@peixe30.com",
-    "name": "Administrador"
-  }
-}
-```
-
-#### GET /api/auth/me
-Retorna dados do usuário autenticado.
-
-**Headers:**
-```
-Authorization: Bearer {token}
-```
-
----
-
-### Vagas (Jobs)
-
-Todas as rotas requerem autenticação (Bearer token).
-
-#### POST /api/jobs
-Cria uma nova vaga.
-
-**Body:**
-```json
-{
-  "title": "Desenvolvedor Full Stack",
-  "description": "Descrição da vaga...",
-  "location": "São Paulo - SP",
-  "salaryRange": "R$ 8.000 - R$ 12.000",
-  "skills": ["Node.js", "React", "TypeScript"]
-}
-```
-
-#### GET /api/jobs
-Lista todas as vagas com paginação.
-
-**Query Params:**
-- `page` (opcional, default: 1)
-- `limit` (opcional, default: 10)
-
-**Response:**
-```json
-{
-  "data": [...],
-  "total": 25,
-  "page": 1,
-  "limit": 10,
-  "totalPages": 3
-}
-```
-
-#### GET /api/jobs/:id
-Busca uma vaga específica.
-
-#### PUT /api/jobs/:id
-Atualiza uma vaga.
-
-#### DELETE /api/jobs/:id
-Deleta uma vaga.
-
----
-
-### Candidatos (Candidates)
-
-#### GET /api/candidates
-Lista todos os candidatos.
-
-#### GET /api/jobs/:jobId/candidates
-Lista candidatos compatíveis com uma vaga, ordenados por score.
-
-**Response:**
-```json
-[
-  {
-    "id": "65f1a2b3c4d5e6f7g8h9i0j1",
-    "name": "Milena Nogueira",
-    "email": "milena.nogueira@email.com",
-    "skills": ["ElasticSearch", "Cypress", "TypeScript"],
-    "experienceYears": 3,
-    "score": 85,
-    "invited": false
-  }
-]
-```
-
-#### POST /api/invitations
-Convida um candidato para uma vaga.
-
-**Body:**
-```json
-{
-  "jobId": "65f1a2b3c4d5e6f7g8h9i0j1",
-  "candidateId": "65f1a2b3c4d5e6f7g8h9i0j2"
-}
-```
-
+**Produção:**
+- Swagger Docs: `https://peixe30-backend.onrender.com/docs`
+- Health Check: `https://peixe30-backend.onrender.com/health`
 ---
 
 ## 🧮 Cálculo do Match Score
@@ -214,19 +120,53 @@ O score de compatibilidade (0-100) é calculado assim:
 - Score de experiência: 18 pontos
 - **Total: 65 pontos**
 
-## 🗂️ Estrutura do Projeto
+## 🗂️ Estrutura do Projeto Backend
 
 ```
-src/
-├── config/          # Configurações (env)
-├── controllers/     # Controladores das rotas
-├── middleware/      # Middlewares (auth)
-├── routes/          # Definição de rotas
-├── services/        # Lógica de negócio
-├── types/           # Tipos TypeScript
-├── utils/           # Utilitários (prisma, match-score)
-├── seeds/           # Seeds do banco
-└── server.ts        # Entry point
+backend/
+├── prisma/
+│   └── schema.prisma        # Schema do banco de dados
+├── src/
+│   ├── config/             # Configurações
+│   │   ├── app.ts          # Configuração do Fastify
+│   │   └── env.ts          # Validação de variáveis de ambiente
+│   ├── controllers/        # Controladores das rotas
+│   │   ├── auth.controller.ts
+│   │   ├── candidate.controller.ts
+│   │   └── job.controller.ts
+│   ├── middleware/         # Middlewares
+│   │   ├── auth.middleware.ts
+│   │   └── error.middleware.ts
+│   ├── plugins/           # Plugins do Fastify
+│   │   ├── index.ts       # Registro de plugins
+│   │   └── rate-limit.ts  # Configuração de rate limiting
+│   ├── routes/            # Definição de rotas
+│   │   ├── index.ts       # Registro de rotas
+│   │   ├── auth.routes.ts
+│   │   ├── candidate.routes.ts
+│   │   ├── health.routes.ts
+│   │   └── job.routes.ts
+│   ├── services/          # Lógica de negócio
+│   │   ├── auth.service.ts
+│   │   ├── candidate.service.ts
+│   │   └── job.service.ts
+│   ├── types/            # Tipos TypeScript
+│   │   └── index.ts
+│   ├── utils/            # Utilitários
+│   │   ├── match-score.ts # Cálculo de compatibilidade
+│   │   ├── prisma.ts     # Cliente Prisma
+│   │   └── startup.ts    # Configuração de inicialização
+│   ├── seeds/            # Seeds do banco
+│   │   ├── candidates.seed.json
+│   │   └── seed.ts
+│   └── server.ts         # Entry point da aplicação
+├── tests/                # Testes (se implementados)
+├── .env                  # Variáveis de ambiente (local)
+├── .gitignore           # Arquivos ignorados pelo Git
+├── eslint.config.js     # Configuração do ESLint
+├── package.json         # Dependências e scripts
+├── tsconfig.json        # Configuração do TypeScript
+└── README.md           # Este arquivo
 ```
 
 ## 🔐 Credenciais Padrão
@@ -258,8 +198,17 @@ npm run prisma:studio
 # Popular banco com dados
 npm run seed
 
-# Setup completo (gerar + push + seed)
-npm run setup
+# Verificar lint do código
+npm run lint
+
+# Corrigir problemas de lint automaticamente
+npm run lint:fix
+
+# Formatar código com Prettier
+npm run format
+
+# Verificar tipos TypeScript
+npm run type-check
 ```
 
 ## 📦 Deploy
@@ -267,12 +216,6 @@ npm run setup
 ### Variáveis de Ambiente em Produção
 
 Certifique-se de configurar todas as variáveis do `.env` na sua plataforma de deploy (Render, Railway, Heroku, etc.).
-
-### MongoDB Atlas
-
-1. Crie um cluster no [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-2. Configure o IP whitelist (libere `0.0.0.0/0` para testes)
-3. Copie a connection string e adicione ao `DATABASE_URL`
 
 ## 📝 Licença
 
