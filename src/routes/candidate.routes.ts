@@ -62,6 +62,10 @@ export async function candidateRoutes(app: FastifyInstance) {
                 minimum: 0, 
                 maximum: 100,
                 description: 'Score de compatibilidade com a vaga'
+              },
+              invited: {
+                type: 'boolean',
+                description: 'Indica se o candidato já foi convidado para esta vaga'
               }
             }
           }
@@ -97,36 +101,20 @@ export async function candidateRoutes(app: FastifyInstance) {
         201: {
           type: 'object',
           properties: {
-            id: { type: 'string' },
-            jobId: { type: 'string' },
-            candidateId: { type: 'string' },
-            createdAt: { type: 'string', format: 'date-time' },
-            job: {
-              type: 'object',
-              properties: {
-                id: { type: 'string' },
-                title: { type: 'string' }
-              }
-            },
-            candidate: {
-              type: 'object',
-              properties: {
-                id: { type: 'string' },
-                name: { type: 'string' },
-                email: { type: 'string', format: 'email' }
-              }
-            }
+            success: { type: 'boolean' },
+            message: { type: 'string' }
           }
         },
-        400: {
+        400: errorSchema,
+        404: errorSchema,
+        409: {
           type: 'object',
           properties: {
-            error: { type: 'boolean' },
+            error: { type: 'string' },
             message: { type: 'string' },
             alreadyInvited: { type: 'boolean' }
           }
         },
-        404: errorSchema,
         401: errorSchema,
         500: errorSchema
       }

@@ -39,9 +39,10 @@ export class CandidateController {
   async inviteCandidate(request: FastifyRequest, reply: FastifyReply) {
     try {
       const body = inviteSchema.parse(request.body);
-      await candidateService.inviteCandidate(body.jobId, body.candidateId);
+      const invitation = await candidateService.inviteCandidate(body.jobId, body.candidateId);
 
       return reply.status(201).send({
+        success: true,
         message: 'Candidato convidado com sucesso',
       });
     } catch (error) {
@@ -71,6 +72,7 @@ export class CandidateController {
           return reply.status(409).send({
             error: 'Conflict',
             message: 'Candidato ja convidado para esta vaga !',
+            alreadyInvited: true,
           });
         }
       }

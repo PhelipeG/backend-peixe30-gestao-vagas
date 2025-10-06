@@ -18,9 +18,6 @@ export class CandidateService {
       where: { jobId },
       select: { candidateId: true },
     });
-    if (!invitations) {
-      throw new Error('Erro ao buscar convites!');
-    }
 
     const invitedCandidateIds = new Set(
       invitations.map(inv => inv.candidateId)
@@ -48,7 +45,7 @@ export class CandidateService {
 
     return candidatesWithScore;
   }
-  async inviteCandidate(jobId: string, candidateId: string): Promise<void> {
+  async inviteCandidate(jobId: string, candidateId: string) {
     const job = await prisma.job.findUnique({
       where: { id: jobId },
     });
@@ -70,12 +67,31 @@ export class CandidateService {
     if (existingInvitation) {
       throw new Error('Convite ja enviado para este candidato!');
     }
-    await prisma.invitation.create({
+    
+    // Criar convite com dados completos
+    const invitation = await prisma.invitation.create({
       data: {
         jobId,
         candidateId,
       },
+      include: {
+        job: {
+          select: {
+            id: true,
+            title: true
+          }
+        },
+        candidate: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        }
+      }
     });
+    
+    return invitation;
   }
   async getCandidatesCount(): Promise<number> {
     return prisma.candidate.count();
