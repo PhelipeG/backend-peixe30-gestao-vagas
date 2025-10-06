@@ -27,10 +27,11 @@ export async function registerPlugins(app: FastifyInstance) {
   await app.register(cors, {
     origin:
       env.NODE_ENV === 'production'
-        ? ['https://seu-frontend.vercel.app']
+        ? ['https://peixe30-sistemas-vagas.vercel.app','http://localhost:3000']
         : true,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
   // Plugin de JWT
