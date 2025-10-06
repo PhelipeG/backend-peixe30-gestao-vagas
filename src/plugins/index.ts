@@ -5,6 +5,7 @@ import { FastifyInstance } from 'fastify';
 import { env } from '../config/env';
 import { errorHandler } from '../middleware/error.middleware';
 import { registerRateLimit } from './rate-limit';
+import { registerSwagger } from './swagger';
 
 declare module '@fastify/jwt' {
   interface FastifyJWT {
@@ -20,6 +21,7 @@ declare module '@fastify/jwt' {
 }
 
 export async function registerPlugins(app: FastifyInstance) {
+  await registerSwagger(app);
   // Plugin de Rate Limit
   await registerRateLimit(app);
 
@@ -27,7 +29,7 @@ export async function registerPlugins(app: FastifyInstance) {
   await app.register(cors, {
     origin:
       env.NODE_ENV === 'production'
-        ? ['https://peixe30-sistemas-vagas.vercel.app','http://localhost:3000']
+        ? ['https://peixe30-sistemas-vagas.vercel.app', 'http://localhost:3000']
         : true,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],

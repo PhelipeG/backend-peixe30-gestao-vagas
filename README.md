@@ -10,12 +10,12 @@ Backend da aplicação de gerenciamento de vagas e candidatos.
 
 ## ⏱️ Tempo de Desenvolvimento
 
-**Total do Backend:** 16 horas
+**Total do Backend:** 17 horas
 - Estrutura inicial e configuração: 2 horas
 - Implementação das APIs (CRUD, Auth): 5 horas
 - Sistema de match e score: 4 horas
 - Validações, middleware e rate limiting: 2 horas
-- Documentação e deploy: 3 horas
+- Documentação e deploy: 4 horas
 
 ## 🚀 Tecnologias
 
