@@ -67,7 +67,7 @@ export class CandidateController {
           });
         }
 
-        if (error.message === 'Candidate already invited') {
+        if (error.message === 'Convite ja enviado para este candidato!') {
           return reply.status(409).send({
             error: 'Conflict',
             message: 'Candidato ja convidado para esta vaga !',
