@@ -1,13 +1,10 @@
 import { FastifyInstance } from 'fastify';
 
 import { env } from '../config/env';
-import { prisma } from '../utils/prisma';
 
 export async function healthRoutes(app: FastifyInstance) {
   app.get('/health', async () => {
     try {
-      // Teste de conexão com banco
-      // await prisma.$queryRaw`SELECT 1`;
       return {
         status: 'ok',
         timestamp: new Date().toISOString(),

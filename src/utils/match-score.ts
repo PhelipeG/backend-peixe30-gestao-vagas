@@ -13,7 +13,6 @@ export function calculateMatchScore(
   jobSkills: string[],
   experienceYears: number
 ): number {
-  // Normalizar skills para lowercase para comparação 
   const normalizedCandidateSkills = candidateSkills.map(s => s.toLowerCase());
   const normalizedJobSkills = jobSkills.map(s => s.toLowerCase());
 

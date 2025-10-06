@@ -4,7 +4,6 @@ import { prisma } from '../utils/prisma';
 
 export class CandidateService {
   async getMatchingCandidates(jobId: string): Promise<CandidateWithScore[]> {
-    // Buscar a vaga
     const job = await prisma.job.findUnique({
       where: { id: jobId },
     });
@@ -12,8 +11,6 @@ export class CandidateService {
     if (!job) {
       throw new Error('Vaga nao encontrada!');
     }
-
-    // Buscar todos os candidatos
     const candidates = await prisma.candidate.findMany();
 
     // Buscar convites já feitos para esta vaga

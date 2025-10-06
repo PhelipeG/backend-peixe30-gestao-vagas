@@ -9,7 +9,7 @@ export async function errorHandler(
 
   reply.status(statusCode).send({
     error: true,
-    message: statusCode >= 500 ? 'Internal Server Error' : message,
+    message: statusCode >= 500 ? 'Erro interno do servidor' : message,
     statusCode,
     timestamp: new Date().toISOString(),
     path: request.url,
