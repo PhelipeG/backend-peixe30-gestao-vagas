@@ -4,9 +4,9 @@ Backend da aplicação de gerenciamento de vagas e candidatos.
 
 ## 🌐 URLs de Produção
 
-- **API Backend:** https://peixe30-backend.onrender.com
-- **Documentação Swagger:** https://peixe30-backend.onrender.com/docs
-- **Health Check:** https://peixe30-backend.onrender.com/health
+- **API Backend:** https://backend-peixe30-gestao-vagas.onrender.com
+- **Documentação Swagger:** https://backend-peixe30-gestao-vagas.onrender.com/docs
+- **Health Check:** https://backend-peixe30-gestao-vagas.onrender.com/health
 
 ## ⏱️ Tempo de Desenvolvimento
 
@@ -91,13 +91,6 @@ npm run dev
 ```
 O servidor iniciará em `http://localhost:3333`
 
-## 📚 Documentação da API
-
-### URLs da API
-
-**Produção:**
-- Swagger Docs: `https://peixe30-backend.onrender.com/docs`
-- Health Check: `https://peixe30-backend.onrender.com/health`
 ---
 
 ## 🧮 Cálculo do Match Score
