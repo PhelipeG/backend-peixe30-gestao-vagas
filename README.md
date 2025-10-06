@@ -2,6 +2,16 @@
 
 Backend da aplicação de gerenciamento de vagas e candidatos.
 
+## ⚠️ **Importante - Limitações do Deploy Gratuito**
+
+Este backend está hospedado no **Render (Plano Gratuito)** com as seguintes limitações:
+
+- ⏰ **Sleep após 15 minutos** de inatividade
+- 🐌 **Cold start:** ~30-60 segundos para "acordar" após período inativo
+- 💤 **Automatic sleep:** Não há como desativar no plano gratuito
+
+**Primeira requisição pode demorar até 1 minuto para responder** se o serviço estiver "dormindo".
+
 ## 🌐 URLs de Produção
 
 - **API Backend:** https://backend-peixe30-gestao-vagas.onrender.com
